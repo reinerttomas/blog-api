@@ -9,25 +9,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
-    #[Route('/posts/', name: 'post_list')]
+    #[Route('/posts/', name: 'post_list', methods: 'GET')]
     public function list(): Response
     {
         return $this->json(['post_list']);
     }
 
-    #[Route('/posts/{id}', name: 'post_by_id')]
-    public function postById(): Response
+    #[Route('/posts/{id<\d+>}', name: 'post_by_id', methods: 'GET')]
+    public function postById(int $id): Response
     {
-        return $this->json(['post_by_id']);
+        return $this->json(['post_by_id' => $id]);
     }
 
-    #[Route('/posts/{slug}', name: 'post_by_slug')]
-    public function postBySlug(): Response
+    #[Route('/posts/{slug}', name: 'post_by_slug', methods: 'GET')]
+    public function postBySlug(string $slug): Response
     {
-        return $this->json(['post_by_slug']);
+        return $this->json(['post_by_slug' => $slug]);
     }
 
-    #[Route('/posts/add', name: 'post_add')]
+    #[Route('/posts/', name: 'post_add', methods: 'POST')]
     public function postAdd(): Response
     {
         return $this->json(['post_add']);
