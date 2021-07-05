@@ -1,0 +1,28 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        server_version: mariadb-10.5.9
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+        types:
+            datetime: Blog\Database\Type\DateTimeType
+            date: Blog\Database\Type\DateType
+            time: Blog\Database\Type\TimeType
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            Blog:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Blog/ORM'
+                prefix: 'Blog\Entity'
+        dql:
+            datetime_functions:
+                date_format: DoctrineExtensions\Query\Mysql\DateFormat
+            numeric_functions:
+                round: DoctrineExtensions\Query\Mysql\Round
+                rand: DoctrineExtensions\Query\Mysql\Rand
