@@ -23,11 +23,20 @@ class PostController extends AbstractController
     }
 
     #[Route('/posts', name: 'post_list', methods: 'GET')]
-    public function list(): Response
+    public function list(Request $request): Response
     {
-        $posts = $this->postService->list();
+        $page = (int)$request->get('page', 1);
+        $limit = (int)$request->get('limit', 10);
 
-        return $this->json($posts);
+        $posts = $this->postService->list($limit);
+
+        return $this->json(
+            [
+                'page' => $page,
+                'limit' => $limit,
+                'data' => $posts
+            ]
+        );
     }
 
     #[Route('/posts/{id<\d+>}', name: 'post_by_id', methods: 'GET')]

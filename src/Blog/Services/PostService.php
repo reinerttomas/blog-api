@@ -21,9 +21,9 @@ class PostService
         $this->postBusiness = $postBusiness;
     }
 
-    public function list(): array
+    public function list(int $limit): array
     {
-        return $this->postRepository->list();
+        return $this->postRepository->list($limit);
     }
 
     public function get(int $id): Post

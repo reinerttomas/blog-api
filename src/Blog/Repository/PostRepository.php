@@ -15,9 +15,10 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function list(): array
+    public function list(int $limit = 10): array
     {
-        return $this->findAll();
+        //@todo - offset
+        return $this->findBy([], null, $limit, null);
     }
 
     public function get(int $id): Post
