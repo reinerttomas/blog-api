@@ -7,6 +7,7 @@ use Blog\Core\Json;
 use Blog\Dto\PostRequestDto;
 use Blog\Exception\Exception;
 use Blog\Exception\NotFoundException;
+use Blog\Factory\PaginatorFactory;
 use Blog\Services\PostService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,24 +17,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     private PostService $postService;
+    private PaginatorFactory $paginatorFactory;
 
-    public function __construct(PostService $postService)
-    {
+    public function __construct(
+        PostService $postService,
+        PaginatorFactory $paginatorFactory
+    ) {
         $this->postService = $postService;
+        $this->paginatorFactory = $paginatorFactory;
     }
 
     #[Route('/posts', name: 'post_list', methods: 'GET')]
     public function list(Request $request): Response
     {
-        $page = (int)$request->get('page', 1);
-        $limit = (int)$request->get('limit', 10);
+        $paginator = $this->paginatorFactory->create($request);
 
-        $posts = $this->postService->list($limit);
+        $posts = $this->postService->list($paginator);
 
         return $this->json(
             [
-                'page' => $page,
-                'limit' => $limit,
+                'page' => $paginator->getPage(),
+                'limit' => $paginator->getLimit(),
                 'data' => $posts
             ]
         );

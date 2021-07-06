@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Blog\Repository;
 
+use Blog\Core\Paginator;
 use Blog\Entity\Post;
 use Blog\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,10 +16,14 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function list(int $limit = 10): array
+    public function list(Paginator $paginator): array
     {
-        //@todo - offset
-        return $this->findBy([], null, $limit, null);
+        return $this->findBy(
+            [],
+            null,
+            $paginator->getLimit(),
+            $paginator->getOffset()
+        );
     }
 
     public function get(int $id): Post

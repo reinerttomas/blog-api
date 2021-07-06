@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Blog\Services;
 
 use Blog\Business\PostBusiness;
+use Blog\Core\Paginator;
 use Blog\Dto\PostRequestDto;
 use Blog\Entity\Post;
 use Blog\Repository\PostRepository;
@@ -21,9 +22,9 @@ class PostService
         $this->postBusiness = $postBusiness;
     }
 
-    public function list(int $limit): array
+    public function list(Paginator $paginator): array
     {
-        return $this->postRepository->list($limit);
+        return $this->postRepository->list($paginator);
     }
 
     public function get(int $id): Post
