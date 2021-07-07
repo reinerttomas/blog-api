@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Blog\Services;
 
+use Blog\Api\JsonPlaceholder\Post\PostResponse;
 use Blog\Business\PostBusiness;
 use Blog\Core\Paginator;
 use Blog\Dto\PostRequestDto;
@@ -37,8 +38,13 @@ class PostService
         return $this->postRepository->getBySlug($slug);
     }
 
-    public function createFromApi(PostRequestDto $postRequestDto): Post
+    public function createFromRequest(PostRequestDto $postRequestDto): Post
     {
         return $this->postBusiness->createFromRequest($postRequestDto);
+    }
+
+    public function createFromApi(PostResponse $postResponse): Post
+    {
+        return $this->postBusiness->createFromApi($postResponse);
     }
 }

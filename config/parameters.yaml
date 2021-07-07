@@ -1,0 +1,3 @@
+parameters:
+    json_placeholder_api_config:
+        base_uri: 'https://jsonplaceholder.typicode.com/'

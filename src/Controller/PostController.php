@@ -80,7 +80,7 @@ class PostController extends AbstractController
         );
 
         try {
-            $post = $this->postService->createFromApi($postRequestDto);
+            $post = $this->postService->createFromRequest($postRequestDto);
         } catch (Exception $e) {
             // @todo - vratit json s chybou
             throw $e;

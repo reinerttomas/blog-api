@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Blog\Business;
 
+use Blog\Api\JsonPlaceholder\Post\PostResponse;
 use Blog\Dto\PostRequestDto;
 use Blog\Entity\Post;
 use Blog\Repository\PostRepository;
@@ -21,6 +22,14 @@ class PostBusiness
         return $this->create(
             $postRequestDto->getTitle(),
             $postRequestDto->getContent()
+        );
+    }
+
+    public function createFromApi(PostResponse $postResponse): Post
+    {
+        return $this->create(
+            $postResponse->getTitle(),
+            $postResponse->getBody()
         );
     }
 
