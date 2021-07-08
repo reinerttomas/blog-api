@@ -19,7 +19,7 @@ class Parser
             throw new Exception('Value cannot be null empty string.');
         }
 
-        return (string)$string;
+        return $string;
     }
 
     public static function parseInt(mixed $string): int

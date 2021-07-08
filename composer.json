@@ -23,6 +23,12 @@
         "symfony/yaml": "5.3.*"
     },
     "require-dev": {
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.91",
+        "phpstan/phpstan-doctrine": "^0.12.42",
+        "phpstan/phpstan-strict-rules": "^0.12.10",
+        "phpstan/phpstan-symfony": "^0.12.38",
         "symfony/maker-bundle": "^1.33"
     },
     "config": {
@@ -58,6 +64,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpstan": [
+            "@php bin/console cache:warmup --env=test",
+            "phpstan analyse -c phpstan.neon"
         ]
     },
     "conflict": {

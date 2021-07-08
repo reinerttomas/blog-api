@@ -94,6 +94,9 @@
     "guzzlehttp/psr7": {
         "version": "2.0.0"
     },
+    "jetbrains/phpstorm-attributes": {
+        "version": "1.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.0"
     },
@@ -102,6 +105,21 @@
     },
     "nikic/php-parser": {
         "version": "v4.11.0"
+    },
+    "phpstan/extension-installer": {
+        "version": "1.1.0"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.91"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.42"
+    },
+    "phpstan/phpstan-strict-rules": {
+        "version": "0.12.10"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.38"
     },
     "psr/cache": {
         "version": "2.0.0"
