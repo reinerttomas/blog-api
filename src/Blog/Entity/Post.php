@@ -5,6 +5,7 @@ namespace Blog\Entity;
 
 use Blog\Core\DateTime;
 use Blog\Core\Strings;
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
 class Post implements JsonSerializable
@@ -50,7 +51,16 @@ class Post implements JsonSerializable
         return $this->createdAt;
     }
 
-    public function jsonSerialize()
+    #[ArrayShape(
+        [
+            'id' => "int",
+            'slug' => "string",
+            'title' => "string",
+            'content' => "string",
+            'createdAt' => "string"
+        ]
+    )]
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

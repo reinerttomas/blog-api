@@ -38,7 +38,7 @@ class PostController extends AbstractController
             [
                 'page' => $paginator->getPage(),
                 'limit' => $paginator->getLimit(),
-                'data' => $posts
+                'data' => $posts,
             ]
         );
     }

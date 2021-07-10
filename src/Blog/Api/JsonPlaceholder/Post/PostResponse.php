@@ -23,7 +23,8 @@ class PostResponse
         $this->id = Parser::parseInt($data['id']);
         $this->userId = Parser::parseInt($data['userId']);
         $this->title = Parser::parseString($data['title']);
-        $this->body = Parser::parseString($data['body']);;
+        $this->body = Parser::parseString($data['body']);
+        ;
     }
 
     public function getId(): int

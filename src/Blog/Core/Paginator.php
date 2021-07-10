@@ -7,7 +7,7 @@ class Paginator
 {
     private int $page;
     private int $limit;
-    
+
     public function __construct(?int $page, ?int $limit)
     {
         if ($page === null) {
@@ -15,7 +15,7 @@ class Paginator
         } else {
             $this->page = $page;
         }
-        
+
         if ($limit === null) {
             $this->limit = 10;
         } else {
@@ -27,7 +27,7 @@ class Paginator
     {
         return $this->page;
     }
-    
+
     public function getLimit(): int
     {
         return $this->limit;

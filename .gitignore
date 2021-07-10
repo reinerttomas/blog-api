@@ -1,3 +1,4 @@
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -9,4 +10,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-.idea
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs_ruleset.xml
+###< squizlabs/php_codesniffer ###
