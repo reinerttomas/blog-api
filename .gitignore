@@ -12,5 +12,4 @@
 
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
-/phpcs_ruleset.xml
 ###< squizlabs/php_codesniffer ###

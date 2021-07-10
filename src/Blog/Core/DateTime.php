@@ -11,7 +11,7 @@ use Blog\Exception\Exception;
 
 class DateTime extends DateTimeImmutable
 {
-    public function __construct(string $time = 'now', DateTimeZone $timezone = null)
+    public function __construct(string $time = 'now', ?DateTimeZone $timezone = null)
     {
         parent::__construct($time, $timezone);
     }
@@ -84,6 +84,7 @@ class DateTime extends DateTimeImmutable
     public function getDayOfWeek(): int
     {
         $dayOfWeek = intval($this->format('N'));
+
         if ($dayOfWeek === 0) {
             throw new Exception('Error day of week');
         }

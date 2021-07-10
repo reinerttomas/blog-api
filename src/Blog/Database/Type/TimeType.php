@@ -39,6 +39,7 @@ final class TimeType extends DoctrineTimeType
         if ($value !== null) {
             return $value->format($platform->getTimeFormatString());
         }
+
         return null;
     }
 

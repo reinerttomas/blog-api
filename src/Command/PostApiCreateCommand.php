@@ -50,6 +50,9 @@ class PostApiCreateCommand extends Command
             ->setHelp($this->defaultDescription());
     }
 
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stopWatch = new StopWatch();

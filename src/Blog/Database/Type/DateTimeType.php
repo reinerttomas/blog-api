@@ -39,6 +39,7 @@ final class DateTimeType extends DoctrineDateTimeType
         if ($value !== null) {
             return $value->format($platform->getDateTimeFormatString());
         }
+
         return null;
     }
 

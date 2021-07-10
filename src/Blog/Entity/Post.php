@@ -57,7 +57,7 @@ class Post implements JsonSerializable
             'slug' => "string",
             'title' => "string",
             'content' => "string",
-            'createdAt' => "string"
+            'createdAt' => "string",
         ]
     )]
     public function jsonSerialize(): array

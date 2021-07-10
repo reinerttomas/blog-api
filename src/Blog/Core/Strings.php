@@ -7,5 +7,4 @@ use Nette\Utils\Strings as NetteStrings;
 
 class Strings extends NetteStrings
 {
-
 }
