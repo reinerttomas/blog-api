@@ -18,7 +18,7 @@ class Post implements JsonSerializable
 
     public function __construct(
         string $title,
-        string $content
+        string $content,
     ) {
         $this->slug = Strings::webalize($title);
         $this->title = $title;
@@ -58,7 +58,7 @@ class Post implements JsonSerializable
             'title' => "string",
             'content' => "string",
             'createdAt' => "string",
-        ]
+        ],
     )]
     public function jsonSerialize(): array
     {

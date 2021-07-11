@@ -10,7 +10,7 @@ class PostRequestDto
 
     public function __construct(
         string $title,
-        string $content
+        string $content,
     ) {
         $this->title = $title;
         $this->content = $content;

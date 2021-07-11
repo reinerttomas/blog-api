@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Blog\Database\Type;
 
-use DateTime as PhpDateTime;
 use Blog\Core\DateTime;
+use DateTime as PhpDateTime;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\DateType as DoctrineDateType;
 
@@ -12,9 +12,9 @@ final class DateType extends DoctrineDateType
 {
     private const NAME = 'date';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getDateTimeTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getDateTimeTypeDeclarationSQL($column);
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime
@@ -43,9 +43,6 @@ final class DateType extends DoctrineDateType
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getName(): string
     {
         return self::NAME;

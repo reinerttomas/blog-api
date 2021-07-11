@@ -21,7 +21,7 @@ class PostController extends AbstractController
 
     public function __construct(
         PostService $postService,
-        PaginatorFactory $paginatorFactory
+        PaginatorFactory $paginatorFactory,
     ) {
         $this->postService = $postService;
         $this->paginatorFactory = $paginatorFactory;
@@ -39,7 +39,7 @@ class PostController extends AbstractController
                 'page' => $paginator->getPage(),
                 'limit' => $paginator->getLimit(),
                 'data' => $posts,
-            ]
+            ],
         );
     }
 
@@ -76,7 +76,7 @@ class PostController extends AbstractController
 
         $postRequestDto = new PostRequestDto(
             $data['title'],
-            $data['content']
+            $data['content'],
         );
 
         try {

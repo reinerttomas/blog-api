@@ -23,7 +23,7 @@ class Post
 
         if ($response->getStatusCode() !== 200) {
             throw new Exception(
-                sprintf('Error get post %d. Status code %d', $id, $response->getStatusCode())
+                sprintf('Error get post %d. Status code %d', $id, $response->getStatusCode()),
             );
         }
 
@@ -39,7 +39,7 @@ class Post
 
         if ($response->getStatusCode() !== 200) {
             throw new Exception(
-                sprintf('Error list. Status code %d', $response->getStatusCode())
+                sprintf('Error list. Status code %d', $response->getStatusCode()),
             );
         }
 

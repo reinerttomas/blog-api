@@ -25,7 +25,7 @@ class PostRepository extends ServiceEntityRepository
             [],
             null,
             $paginator->getLimit(),
-            $paginator->getOffset()
+            $paginator->getOffset(),
         );
     }
 

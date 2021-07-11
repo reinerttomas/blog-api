@@ -7,12 +7,8 @@ use Blog\Exception\JsonException;
 
 class Json
 {
-    public static function encode(?array $array): string
+    public static function encode(array $array): string
     {
-        if ($array === null) {
-            throw new JsonException('Array is null');
-        }
-
         try {
             return json_encode($array, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
@@ -20,31 +16,23 @@ class Json
         }
     }
 
-    public static function decode(?string $string): array
+    public static function decode(string $json): array
     {
-        if ($string === null) {
-            throw new JsonException('String is null');
-        }
-
         try {
-            return json_decode($string, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new JsonException($e->getMessage());
         }
     }
 
-    public static function validate(?string $string): bool
+    public static function validate(string $json): bool
     {
-        if ($string === null) {
+        $array = json_decode($json, true);
+
+        if ($array === null) {
             return false;
         }
 
-        try {
-            json_decode($string, true, 512, JSON_THROW_ON_ERROR);
-
-            return true;
-        } catch (\JsonException $e) {
-            return false;
-        }
+        return true;
     }
 }

@@ -28,7 +28,7 @@ class PostApiCreateCommand extends Command
     public function __construct(
         LoggerInterface $logger,
         PostService $postService,
-        JsonPlaceholderApi $jsonPlaceholderApi
+        JsonPlaceholderApi $jsonPlaceholderApi,
     ) {
         parent::__construct();
 

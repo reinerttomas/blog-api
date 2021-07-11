@@ -21,7 +21,7 @@ class PostBusiness
     {
         return $this->create(
             $postRequestDto->getTitle(),
-            $postRequestDto->getContent()
+            $postRequestDto->getContent(),
         );
     }
 
@@ -29,17 +29,17 @@ class PostBusiness
     {
         return $this->create(
             $postResponse->getTitle(),
-            $postResponse->getBody()
+            $postResponse->getBody(),
         );
     }
 
     private function create(
         string $title,
-        string $content
+        string $content,
     ): Post {
         $post = new Post(
             $title,
-            $content
+            $content,
         );
 
         return $this->postRepository->store($post);

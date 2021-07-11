@@ -13,7 +13,7 @@ class Parser
             throw new Exception('Value cannot be null.');
         }
 
-        $string = trim($string);
+        $string = Strings::trim($string);
 
         if ($string === '') {
             throw new Exception('Value cannot be null empty string.');
@@ -50,11 +50,11 @@ class Parser
 
     public static function parseStringOrNull(?string $string): ?string
     {
-        if ($string == null) {
+        if ($string === null) {
             return null;
         }
 
-        $string = trim($string);
+        $string = Strings::trim($string);
 
         if ($string === '') {
             return null;

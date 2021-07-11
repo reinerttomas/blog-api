@@ -17,7 +17,7 @@ class PostService
 
     public function __construct(
         PostRepository $postRepository,
-        PostBusiness $postBusiness
+        PostBusiness $postBusiness,
     ) {
         $this->postRepository = $postRepository;
         $this->postBusiness = $postBusiness;

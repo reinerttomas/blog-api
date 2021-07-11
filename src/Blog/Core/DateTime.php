@@ -3,46 +3,17 @@ declare(strict_types=1);
 
 namespace Blog\Core;
 
+use Blog\Exception\Exception;
 use DateTime as PhpDateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Blog\Exception\Exception;
 
 class DateTime extends DateTimeImmutable
 {
     public function __construct(string $time = 'now', ?DateTimeZone $timezone = null)
     {
         parent::__construct($time, $timezone);
-    }
-
-    public function __toString(): string
-    {
-        return $this->format('Y-m-d H:i:s');
-    }
-
-    public function toPhpDateTime(): PhpDateTime
-    {
-        return new PhpDateTime($this->format('Y-m-d H:i:s'));
-    }
-
-    public function setTimeStartOfDay(): DateTime
-    {
-        return $this->setTime(0, 0, 0, 0);
-    }
-
-    public function setTimeEndOfDay(): DateTime
-    {
-        return $this->setTime(23, 59, 59, 999);
-    }
-
-    public function isDateTimeSame(DateTime $dateTime): bool
-    {
-        if ($this->format('Y-m-d H:i:s') === $dateTime->format('Y-m-d H:i:s')) {
-            return true;
-        }
-
-        return false;
     }
 
     public static function fromPhpDateTime(DateTimeInterface $dateTime): DateTime
@@ -70,6 +41,30 @@ class DateTime extends DateTimeImmutable
         return new DateTime($date->format('Y-m-d H:i:s.u'));
     }
 
+    public function toPhpDateTime(): PhpDateTime
+    {
+        return new PhpDateTime($this->format('Y-m-d H:i:s'));
+    }
+
+    public function setTimeStartOfDay(): DateTime
+    {
+        return $this->setTime(0, 0, 0, 0);
+    }
+
+    public function setTimeEndOfDay(): DateTime
+    {
+        return $this->setTime(23, 59, 59, 999);
+    }
+
+    public function isDateTimeSame(DateTime $dateTime): bool
+    {
+        if ($this->format('Y-m-d H:i:s') === $dateTime->format('Y-m-d H:i:s')) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isDateToday(): bool
     {
         $today = (new DateTime())->format('Y-m-d');
@@ -83,7 +78,7 @@ class DateTime extends DateTimeImmutable
 
     public function getDayOfWeek(): int
     {
-        $dayOfWeek = intval($this->format('N'));
+        $dayOfWeek = Math::intval($this->format('N'));
 
         if ($dayOfWeek === 0) {
             throw new Exception('Error day of week');
@@ -125,5 +120,10 @@ class DateTime extends DateTimeImmutable
     public function isSunday(): bool
     {
         return $this->getDayOfWeek() === 7;
+    }
+
+    public function __toString(): string
+    {
+        return $this->format('Y-m-d H:i:s');
     }
 }
