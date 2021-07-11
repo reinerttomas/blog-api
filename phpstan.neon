@@ -22,7 +22,7 @@ parameters:
     symfony:
         # I use the prod env because I have false positive regarding the tests which
         # are executed in the test environment.
-        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+        container_xml_path: var/cache/test/App_KernelTestDebugContainer.xml
 
     # https://phpstan.org/config-reference#vague-typehints
     checkMissingIterableValueType: false

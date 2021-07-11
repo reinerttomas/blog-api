@@ -65,7 +65,8 @@
     <rule ref="SlevomatCodingStandard.Functions.StrictCall" />
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure" />
     <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
-        <exclude-pattern>*src/Command/*</exclude-pattern>
+        <exclude-pattern>src/Command/*</exclude-pattern>
+        <exclude-pattern>src/DataFixtures/*</exclude-pattern>
     </rule>
     <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall" />
     <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
