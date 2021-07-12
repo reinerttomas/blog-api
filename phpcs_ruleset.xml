@@ -50,6 +50,7 @@
                 <element value="magic methods"/>
             </property>
         </properties>
+        <exclude-pattern>tests/*</exclude-pattern>
     </rule>
     <rule ref="SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion" />
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants" />

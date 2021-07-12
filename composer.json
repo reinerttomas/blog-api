@@ -32,9 +32,13 @@
         "phpstan/phpstan-doctrine": "^0.12.42",
         "phpstan/phpstan-strict-rules": "^0.12.10",
         "phpstan/phpstan-symfony": "^0.12.38",
+        "phpunit/phpunit": "^9.5",
         "slevomat/coding-standard": "^7.0",
         "squizlabs/php_codesniffer": "^3.6",
-        "symfony/maker-bundle": "^1.33"
+        "symfony/browser-kit": "^5.3",
+        "symfony/css-selector": "^5.3",
+        "symfony/maker-bundle": "^1.33",
+        "symfony/phpunit-bridge": "^5.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -90,7 +94,8 @@
             "php bin/console doctrine:database:drop --env=test --force",
             "php bin/console doctrine:database:create --env=test",
             "php bin/console doctrine:schema:update --env=test --force",
-            "php bin/console doctrine:fixtures:load --env=test --no-interaction"
+            "php bin/console doctrine:fixtures:load --env=test --no-interaction",
+            "php vendor/bin/phpunit"
         ],
         "ci": [
             "@phpstan",
