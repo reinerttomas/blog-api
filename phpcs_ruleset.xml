@@ -3,6 +3,7 @@
     <config name="installed_paths" value="../../slevomat/coding-standard"/>
 
     <file>./src/</file>
+    <exclude-pattern>./migrations/*</exclude-pattern>
 
     <arg name="cache" value=".phpcs-cache"/>
     <arg name="extensions" value="php"/>
