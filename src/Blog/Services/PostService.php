@@ -43,8 +43,8 @@ class PostService
         return $this->postBusiness->createFromRequest($postRequestDto);
     }
 
-    public function createFromApi(PostResponse $postResponse): Post
+    public function createFromJsonPlaceholderApi(PostResponse $postResponse): Post
     {
-        return $this->postBusiness->createFromApi($postResponse);
+        return $this->postBusiness->createFromJsonPlaceholderApi($postResponse);
     }
 }

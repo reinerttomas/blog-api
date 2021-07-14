@@ -67,7 +67,7 @@ class PostApiCreateCommand extends Command
 
         foreach ($postResponses as $postResponse) {
             try {
-                $this->postService->createFromApi($postResponse);
+                $this->postService->createFromJsonPlaceholderApi($postResponse);
             } catch (Throwable $t) {
                 $this->io->newLine(2);
                 $this->io->error('Error post: ' . $postResponse->getId());

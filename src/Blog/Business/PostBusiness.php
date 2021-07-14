@@ -25,7 +25,7 @@ class PostBusiness
         );
     }
 
-    public function createFromApi(PostResponse $postResponse): Post
+    public function createFromJsonPlaceholderApi(PostResponse $postResponse): Post
     {
         return $this->create(
             $postResponse->getTitle(),
