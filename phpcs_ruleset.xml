@@ -162,6 +162,7 @@
             <property name="rootNamespaces" type="array">
                 <element key="src" value="App"/>
                 <element key="src/Blog" value="Blog"/>
+                <element key="tests" value="App\Tests"/>
             </property>
         </properties>
     </rule>
