@@ -31,5 +31,6 @@ class BlogTest extends WebTestCase
         $this->assertArrayHasKey('data', $result);
         $this->assertEquals(1, $result['page']);
         $this->assertEquals(10, $result['limit']);
+        $this->assertEquals(5, count($result['data']));
     }
 }

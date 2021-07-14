@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace App\Tests\Blog\Integration;
 
 use Blog\Core\DateTime;
-use Blog\Repository\PostRepository;
+use Blog\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class BlogTest extends KernelTestCase
+class CommentTest extends KernelTestCase
 {
-    private PostRepository $postRepository;
+    private CommentRepository $commentRepository;
 
     protected function setUp(): void
     {
@@ -20,21 +20,19 @@ class BlogTest extends KernelTestCase
         $container = static::getContainer();
 
         // (3) run some service & test the result
-        $this->postRepository = $container->get(PostRepository::class);
+        $this->commentRepository = $container->get(CommentRepository::class);
     }
 
     public function testLoad(): void
     {
-        $post = $this->postRepository->get(1);
+        $comment = $this->commentRepository->get(1);
 
-        $this->assertEquals(1, $post->getId());
-        $this->assertEquals('qui-est-esse', $post->getSlug());
-        $this->assertEquals('qui est esse', $post->getTitle());
+        $this->assertEquals(1, $comment->getId());
         $this->assertEquals(
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            $post->getContent(),
+            $comment->getContent(),
         );
-        $this->assertInstanceOf(DateTime::class, $post->getCreatedAt());
-        $this->assertNull($post->getUpdatedAt());
+        $this->assertInstanceOf(DateTime::class, $comment->getCreatedAt());
+        $this->assertNull($comment->getUpdatedAt());
     }
 }

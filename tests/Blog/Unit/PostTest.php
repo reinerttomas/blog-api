@@ -7,23 +7,22 @@ use Blog\Core\DateTime;
 use Blog\Entity\Post;
 use PHPUnit\Framework\TestCase;
 
-class BlogTest extends TestCase
+class PostTest extends TestCase
 {
     public function testPost(): void
     {
-        $createdAt = new DateTime();
-
-        $blog = new Post(
+        $post = new Post(
             'Lorem Ipsum is simply',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         );
 
-        $this->assertEquals('Lorem Ipsum is simply', $blog->getTitle());
-        $this->assertEquals('lorem-ipsum-is-simply', $blog->getSlug());
+        $this->assertEquals('Lorem Ipsum is simply', $post->getTitle());
+        $this->assertEquals('lorem-ipsum-is-simply', $post->getSlug());
         $this->assertEquals(
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            $blog->getContent(),
+            $post->getContent(),
         );
-        $this->assertEquals($createdAt->format('Y-m-d'), $blog->getCreatedAt()->format('Y-m-d'));
+        $this->assertInstanceOf(DateTime::class, $post->getCreatedAt());
+        $this->assertNull($post->getUpdatedAt());
     }
 }
