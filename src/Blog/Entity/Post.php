@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Blog\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Blog\Core\DateTime;
 use Blog\Core\Strings;
-use JetBrains\PhpStorm\ArrayShape;
-use JsonSerializable;
 
-class Post implements JsonSerializable
+#[ApiResource]
+class Post
 {
     private int $id;
     private string $slug;
@@ -49,25 +49,5 @@ class Post implements JsonSerializable
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
-    }
-
-    #[ArrayShape(
-        [
-            'id' => "int",
-            'slug' => "string",
-            'title' => "string",
-            'content' => "string",
-            'createdAt' => "string",
-        ],
-    )]
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'slug' => $this->slug,
-            'title' => $this->title,
-            'content' => $this->content,
-            'createdAt' => $this->createdAt->format(DATE_ATOM),
-        ];
     }
 }
