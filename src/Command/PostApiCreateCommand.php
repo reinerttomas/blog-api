@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Command\Attribute\CommandTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
 use Blog\Core\StopWatch\StopWatch;
 use Blog\Services\PostService;
@@ -14,8 +15,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
-class PostApiCreateCommand extends Command
+final class PostApiCreateCommand extends Command
 {
+    use CommandTrait;
+
     protected static $defaultName = 'blog:post-api:create';
     protected static $defaultDescription = 'Vytvoreni clanku z API';
 
@@ -84,15 +87,5 @@ class PostApiCreateCommand extends Command
         $this->io->text($stopWatch->stop($this->defaultName())->getDurationMemoryMessage());
 
         return Command::SUCCESS;
-    }
-
-    private function defaultName(): string
-    {
-        return (string)self::$defaultName;
-    }
-
-    private function defaultDescription(): string
-    {
-        return (string)self::$defaultDescription;
     }
 }

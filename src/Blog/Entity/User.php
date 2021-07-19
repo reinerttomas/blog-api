@@ -46,9 +46,23 @@ class User
         return $this->email;
     }
 
+    public function changeEmail(string $email): User
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    public function changeUsername(string $username): User
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     public function getPassword(): string
@@ -80,6 +94,14 @@ class User
     public function getSurname(): string
     {
         return $this->surname;
+    }
+
+    public function changeName(string $name, string $surname): User
+    {
+        $this->name = $name;
+        $this->surname = $surname;
+
+        return $this;
     }
 
     public function getCreatedAt(): DateTime
