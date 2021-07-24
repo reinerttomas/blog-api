@@ -63,7 +63,7 @@
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty" />
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" />
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceEqualOperator" />
-    <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit" />
+<!--    <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit" />-->
     <rule ref="SlevomatCodingStandard.Functions.StrictCall" />
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure" />
     <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
@@ -78,7 +78,9 @@
 
 <!-- Cleaning - detecting dead code -->
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure" />
-    <rule ref="SlevomatCodingStandard.Functions.UnusedParameter" />
+    <rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
+        <exclude-pattern>src/Command/*</exclude-pattern>
+    </rule>
     <rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue" />
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
         <properties>
