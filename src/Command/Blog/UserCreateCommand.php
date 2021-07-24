@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Blog;
 
-use App\Command\Attribute\CommandTrait;
+use App\Command\ArgumentTrait;
+use App\Command\DescriptionTrait;
 use Blog\Core\StopWatch\StopWatch;
 use Blog\Services\UserService;
 use Psr\Log\LoggerInterface;
@@ -16,7 +17,8 @@ use Throwable;
 
 final class UserCreateCommand extends Command
 {
-    use CommandTrait;
+    use DescriptionTrait;
+    use ArgumentTrait;
 
     protected static $defaultName = 'blog:user:create';
     protected static $defaultDescription = 'Vytvoreni uzivatele';
@@ -36,22 +38,27 @@ final class UserCreateCommand extends Command
         $this->userService = $userService;
     }
 
+    protected function configure(): void
+    {
+        $this->setName($this->defaultName())
+            ->setDescription($this->defaultDescription())
+            ->setHelp($this->defaultDescription())
+            ->addArgument('email', InputArgument::REQUIRED)
+            ->addArgument('username', InputArgument::REQUIRED)
+            ->addArgument('password', InputArgument::REQUIRED)
+            ->addArgument('name', InputArgument::REQUIRED)
+            ->addArgument('surname', InputArgument::REQUIRED);
+    }
+
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
         $this->io->title($this->defaultDescription());
     }
 
-    protected function configure(): void
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        $this->setName($this->defaultName())
-            ->setDescription($this->defaultDescription())
-            ->setHelp($this->defaultDescription())
-            ->addArgument('email', InputArgument::REQUIRED, 'Email')
-            ->addArgument('username', InputArgument::REQUIRED, 'Username')
-            ->addArgument('password', InputArgument::REQUIRED, 'Password')
-            ->addArgument('name', InputArgument::REQUIRED, 'Name')
-            ->addArgument('surname', InputArgument::REQUIRED, 'Surname');
+        $this->askForArguments($input, $output, $this->io);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

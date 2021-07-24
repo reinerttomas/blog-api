@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Blog;
 
-use App\Command\Attribute\CommandTrait;
+use App\Command\DescriptionTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
 use Blog\Core\StopWatch\StopWatch;
 use Blog\Services\PostService;
@@ -17,7 +17,7 @@ use Throwable;
 
 final class PostApiCreateCommand extends Command
 {
-    use CommandTrait;
+    use DescriptionTrait;
 
     protected static $defaultName = 'blog:post-api:create';
     protected static $defaultDescription = 'Vytvoreni clanku z API';
@@ -53,9 +53,6 @@ final class PostApiCreateCommand extends Command
             ->setHelp($this->defaultDescription());
     }
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stopWatch = new StopWatch();
