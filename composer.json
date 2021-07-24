@@ -88,7 +88,7 @@
         ],
         "phpstan": [
             "@php bin/console cache:warmup --env=test",
-            "phpstan analyse -c phpstan.neon"
+            "php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon"
         ],
         "php-parallel-lint": [
             "vendor/bin/parallel-lint --exclude vendor --colors --no-progress ."
