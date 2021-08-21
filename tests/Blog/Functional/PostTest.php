@@ -28,10 +28,10 @@ class PostTest extends WebTestCase
         $content = $client->getResponse()->getContent();
         $result = Json::decode($content);
 
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('page', $result);
-        $this->assertArrayHasKey('limit', $result);
-        $this->assertArrayHasKey('data', $result);
+        self::assertIsArray($result);
+        self::assertArrayHasKey('page', $result);
+        self::assertArrayHasKey('limit', $result);
+        self::assertArrayHasKey('data', $result);
         self::assertEquals($page, $result['page']);
         self::assertEquals($limit, $result['limit']);
         self::assertEquals($count, count($result['data']));
