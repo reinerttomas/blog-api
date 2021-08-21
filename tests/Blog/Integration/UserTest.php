@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Blog\Integration;
 
-use Blog\Core\DateTime;
 use Blog\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -23,17 +22,46 @@ class UserTest extends KernelTestCase
         $this->userRepository = $container->get(UserRepository::class);
     }
 
-    public function testLoad(): void
-    {
-        $user = $this->userRepository->get(1);
+    /**
+     * @dataProvider provideUserData
+     */
+    public function testGetById(
+        int $id,
+        string $email,
+        string $username,
+        string $password,
+        bool $isVerify,
+        string $name,
+        string $surname,
+        string $createdAt,
+        ?string $updatedAt,
+    ): void {
+        $user = $this->userRepository->get($id);
 
-        $this->assertEquals(1, $user->getId());
-        $this->assertEquals('test@test.com', $user->getEmail());
-        $this->assertEquals('username', $user->getUsername());
-        $this->assertTrue($user->verifyPassword('1234'));
-        $this->assertEquals('Test', $user->getName());
-        $this->assertEquals('Tester', $user->getSurname());
-        $this->assertInstanceOf(DateTime::class, $user->getCreatedAt());
-        $this->assertNull($user->getUpdatedAt());
+        self::assertEquals($id, $user->getId());
+        self::assertEquals($email, $user->getEmail());
+        self::assertEquals($username, $user->getUsername());
+        self::assertEquals($isVerify, $user->verifyPassword($password));
+        self::assertEquals($name, $user->getName());
+        self::assertEquals($surname, $user->getSurname());
+        self::assertEquals($createdAt, $user->getCreatedAt()->toStringDateTime());
+        self::assertEquals($updatedAt, $user->getUpdatedAt());
+    }
+
+    public function provideUserData(): array
+    {
+        return [
+            [
+                'id' => 1,
+                'email' => 'test@test.com',
+                'username' => 'username',
+                'password' => '1234',
+                'verify' => true,
+                'name' => 'Test',
+                'surname' => 'Tester',
+                'createdAt' => '2021-01-01 08:00:00',
+                'updatedAt' => null,
+            ],
+        ];
     }
 }

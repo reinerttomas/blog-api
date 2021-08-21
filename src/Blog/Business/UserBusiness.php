@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Blog\Business;
 
+use Blog\Core\DateTime;
 use Blog\Entity\User;
 use Blog\Repository\UserRepository;
 
@@ -44,6 +45,8 @@ class UserBusiness
             $password,
             $name,
             $surname,
+            new DateTime(),
+            null,
         );
 
         return $this->userRepository->store($user);

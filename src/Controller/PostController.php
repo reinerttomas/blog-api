@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Blog\Core\Json;
-use Blog\Dto\PostRequestDto;
 use Blog\Exception\Exception;
 use Blog\Exception\NotFoundException;
+use Blog\Factory\Api\PostRequestFactory;
 use Blog\Factory\PaginatorFactory;
 use Blog\Services\PostService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     private PostService $postService;
+    private PostRequestFactory $postRequestFactory;
     private PaginatorFactory $paginatorFactory;
 
     public function __construct(
         PostService $postService,
+        PostRequestFactory $postRequestFactory,
         PaginatorFactory $paginatorFactory,
     ) {
         $this->postService = $postService;
+        $this->postRequestFactory = $postRequestFactory;
         $this->paginatorFactory = $paginatorFactory;
     }
 
@@ -73,11 +76,7 @@ class PostController extends AbstractController
     public function postAdd(Request $request): Response
     {
         $data = Json::decode($request->getContent());
-
-        $postRequestDto = new PostRequestDto(
-            $data['title'],
-            $data['content'],
-        );
+        $postRequestDto = $this->postRequestFactory->create($data);
 
         try {
             $post = $this->postService->createFromRequest($postRequestDto);

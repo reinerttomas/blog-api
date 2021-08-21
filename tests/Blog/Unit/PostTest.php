@@ -9,20 +9,43 @@ use PHPUnit\Framework\TestCase;
 
 class PostTest extends TestCase
 {
-    public function testPost(): void
+    /**
+     * @dataProvider providePostData
+     */
+    public function testPost(array $expect, array $input): void
     {
         $post = new Post(
-            'Lorem Ipsum is simply',
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            $input['title'],
+            $input['content'],
+            new DateTime($input['createdAt']),
+            new DateTime($input['updatedAt']),
         );
 
-        $this->assertEquals('Lorem Ipsum is simply', $post->getTitle());
-        $this->assertEquals('lorem-ipsum-is-simply', $post->getSlug());
-        $this->assertEquals(
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            $post->getContent(),
-        );
-        $this->assertInstanceOf(DateTime::class, $post->getCreatedAt());
-        $this->assertNull($post->getUpdatedAt());
+        self::assertEquals($expect['title'], $post->getTitle());
+        self::assertEquals($expect['slug'], $post->getSlug());
+        self::assertEquals($expect['content'], $post->getContent());
+        self::assertEquals($expect['createdAt'], $post->getCreatedAt()->toStringDateTime());
+        self::assertEquals($expect['updatedAt'], $post->getUpdatedAt()->toStringDateTime());
+    }
+
+    public function providePostData(): array
+    {
+        return [
+            [
+                [
+                    'title' => 'Lorem Ipsum is simply',
+                    'slug' => 'lorem-ipsum-is-simply',
+                    'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    'createdAt' => '2021-01-01 08:00:00',
+                    'updatedAt' => '2021-01-01 09:00:00',
+                ],
+                [
+                    'title' => 'Lorem Ipsum is simply',
+                    'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    'createdAt' => '2021-01-01 08:00:00',
+                    'updatedAt' => '2021-01-01 09:00:00',
+                ],
+            ],
+        ];
     }
 }

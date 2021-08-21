@@ -9,23 +9,53 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testUser(): void
+    /**
+     * @dataProvider provideUserData
+     */
+    public function testUser(array $expected, array $input): void
     {
         $user = new User(
-            'test@test.com',
-            'username',
-            '1234',
-            'test',
-            'tester',
+            $input['email'],
+            $input['username'],
+            $input['password'],
+            $input['name'],
+            $input['surname'],
+            new DateTime($input['createdAt']),
+            new DateTime($input['updatedAt']),
         );
 
-        $this->assertEquals('test@test.com', $user->getEmail());
-        $this->assertEquals('username', $user->getUsername());
-        $this->assertTrue($user->verifyPassword('1234'));
-        $this->assertFalse($user->verifyPassword('1111'));
-        $this->assertEquals('Test', $user->getName());
-        $this->assertEquals('Tester', $user->getSurname());
-        $this->assertInstanceOf(DateTime::class, $user->getCreatedAt());
-        $this->assertNull($user->getUpdatedAt());
+        self::assertEquals($expected['email'], $user->getEmail());
+        self::assertEquals($expected['username'], $user->getUsername());
+        self::assertEquals($expected['password'], $user->verifyPassword($input['password']));
+        self::assertEquals($expected['name'], $user->getName());
+        self::assertEquals($expected['surname'], $user->getSurname());
+        self::assertEquals($expected['createdAt'], $user->getCreatedAt());
+        self::assertEquals($expected['updatedAt'], $user->getUpdatedAt());
+    }
+
+    public function provideUserData(): array
+    {
+        return [
+            [
+                [
+                    'email' => 'test@test.com',
+                    'username' => 'username',
+                    'password' => true,
+                    'name' => 'Test',
+                    'surname' => 'Tester',
+                    'createdAt' => '2021-01-01 08:00:00',
+                    'updatedAt' => '2021-01-01 09:00:00',
+                ],
+                [
+                    'email' => 'test@test.com',
+                    'username' => 'username',
+                    'password' => '1234',
+                    'name' => 'test',
+                    'surname' => 'tester',
+                    'createdAt' => '2021-01-01 08:00:00',
+                    'updatedAt' => '2021-01-01 09:00:00',
+                ],
+            ],
+        ];
     }
 }

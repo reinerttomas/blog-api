@@ -26,14 +26,16 @@ class User
         string $password,
         string $name,
         string $surname,
+        DateTime $createdAt,
+        ?DateTime $updatedAt,
     ) {
         $this->email = $email;
         $this->username = $username;
         $this->changePassword($password);
         $this->name = Strings::capitalize($name);
         $this->surname = Strings::capitalize($surname);
-        $this->createdAt = new DateTime();
-        $this->updatedAt = null;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     public function getId(): int

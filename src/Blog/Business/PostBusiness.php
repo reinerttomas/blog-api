@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Blog\Business;
 
 use Blog\Api\JsonPlaceholder\Post\PostResponse;
-use Blog\Dto\PostRequestDto;
+use Blog\Core\DateTime;
+use Blog\Dto\Api\PostRequestDto;
 use Blog\Entity\Post;
 use Blog\Repository\PostRepository;
 
@@ -40,6 +41,8 @@ class PostBusiness
         $post = new Post(
             $title,
             $content,
+            new DateTime(),
+            null,
         );
 
         return $this->postRepository->store($post);

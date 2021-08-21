@@ -16,10 +16,12 @@ class Comment
 
     public function __construct(
         string $content,
+        DateTime $createdAt,
+        ?DateTime $updatedAt,
     ) {
         $this->content = $content;
-        $this->createdAt = new DateTime();
-        $this->updatedAt = null;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     public function getId(): int

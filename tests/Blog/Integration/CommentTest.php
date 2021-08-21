@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Blog\Integration;
 
-use Blog\Core\DateTime;
 use Blog\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -23,16 +22,32 @@ class CommentTest extends KernelTestCase
         $this->commentRepository = $container->get(CommentRepository::class);
     }
 
-    public function testLoad(): void
-    {
-        $comment = $this->commentRepository->get(1);
+    /**
+     * @dataProvider provideCommentData
+     */
+    public function testGetById(
+        int $id,
+        string $content,
+        string $createdAt,
+        ?string $updatedAt,
+    ): void {
+        $comment = $this->commentRepository->get($id);
 
-        $this->assertEquals(1, $comment->getId());
-        $this->assertEquals(
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            $comment->getContent(),
-        );
-        $this->assertInstanceOf(DateTime::class, $comment->getCreatedAt());
-        $this->assertNull($comment->getUpdatedAt());
+        self::assertEquals($id, $comment->getId());
+        self::assertEquals($content, $comment->getContent());
+        self::assertEquals($createdAt, $comment->getCreatedAt()->toStringDateTime());
+        self::assertEquals($updatedAt, $comment->getUpdatedAt());
+    }
+
+    public function provideCommentData(): array
+    {
+        return [
+            [
+                'id' => 1,
+                'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                'createdAt' => '2021-01-01 08:00:00',
+                'updatedAt' => null,
+            ],
+        ];
     }
 }

@@ -8,19 +8,30 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PasswordTest extends KernelTestCase
 {
-    public function testPasswordVerifyTrue(): void
+    /**
+     * @dataProvider providePasswordData
+     */
+    public function testHash(bool $expect, string $password, string $verify): void
     {
-        $hash = Password::hash('1234');
-        $isVerify = Password::verify('1234', $hash);
+        $hash = Password::hash($password);
+        $isVerify = Password::verify($verify, $hash);
 
-        $this->assertTrue($isVerify);
+        self::assertEquals($expect, $isVerify);
     }
 
-    public function testPasswordVerifyFalse(): void
+    public function providePasswordData(): array
     {
-        $hash = Password::hash('1234');
-        $isVerify = Password::verify('1111', $hash);
-
-        $this->assertFalse($isVerify);
+        return [
+            [
+                'expect' => true,
+                'password' => '1234',
+                'verify' => '1234',
+            ],
+            [
+                'expect' => false,
+                'password' => '1234',
+                'verify' => '1111',
+            ],
+        ];
     }
 }

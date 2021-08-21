@@ -20,12 +20,14 @@ class Post
     public function __construct(
         string $title,
         string $content,
+        DateTime $createdAt,
+        ?DateTime $updatedAt,
     ) {
         $this->slug = Strings::webalize($title);
         $this->title = $title;
         $this->content = $content;
-        $this->createdAt = new DateTime();
-        $this->updatedAt = null;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     public function getId(): int

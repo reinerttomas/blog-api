@@ -6,7 +6,7 @@ namespace App\Tests\Blog\Functional;
 use Blog\Core\Json;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BlogTest extends WebTestCase
+class PostTest extends WebTestCase
 {
     public function testResponseCode(): void
     {
@@ -14,10 +14,13 @@ class BlogTest extends WebTestCase
 
         $client->request('GET', '/posts');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testPosts(): void
+    /**
+     * @dataProvider providePostsData
+     */
+    public function testPosts(int $page, int $limit, int $count): void
     {
         $client = static::createClient();
         $client->request('GET', '/posts');
@@ -29,8 +32,19 @@ class BlogTest extends WebTestCase
         $this->assertArrayHasKey('page', $result);
         $this->assertArrayHasKey('limit', $result);
         $this->assertArrayHasKey('data', $result);
-        $this->assertEquals(1, $result['page']);
-        $this->assertEquals(10, $result['limit']);
-        $this->assertEquals(5, count($result['data']));
+        self::assertEquals($page, $result['page']);
+        self::assertEquals($limit, $result['limit']);
+        self::assertEquals($count, count($result['data']));
+    }
+
+    public function providePostsData(): array
+    {
+        return [
+            [
+                'page' => 1,
+                'limit' => 10,
+                'count' => 5,
+            ],
+        ];
     }
 }

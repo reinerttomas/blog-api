@@ -11,6 +11,9 @@ use DateTimeZone;
 
 class DateTime extends DateTimeImmutable
 {
+    private const FORMAT_DEFAULT_DATE = 'Y-m-d';
+    private const FORMAT_DEFAULT_DATETIME = 'Y-m-d H:i:s';
+
     public function __construct(string $time = 'now', ?DateTimeZone $timezone = null)
     {
         parent::__construct($time, $timezone);
@@ -43,7 +46,7 @@ class DateTime extends DateTimeImmutable
 
     public function toPhpDateTime(): PhpDateTime
     {
-        return new PhpDateTime($this->format('Y-m-d H:i:s'));
+        return new PhpDateTime($this->toStringDateTime());
     }
 
     public function setTimeStartOfDay(): DateTime
@@ -58,7 +61,7 @@ class DateTime extends DateTimeImmutable
 
     public function isDateTimeSame(DateTime $dateTime): bool
     {
-        if ($this->format('Y-m-d H:i:s') === $dateTime->format('Y-m-d H:i:s')) {
+        if ($this->toStringDateTime() === $dateTime->toStringDateTime()) {
             return true;
         }
 
@@ -67,9 +70,9 @@ class DateTime extends DateTimeImmutable
 
     public function isDateToday(): bool
     {
-        $today = (new DateTime())->format('Y-m-d');
+        $today = (new DateTime())->toStringDate();
 
-        if ($this->format('Y-m-d') === $today) {
+        if ($this->toStringDate() === $today) {
             return true;
         }
 
@@ -122,8 +125,18 @@ class DateTime extends DateTimeImmutable
         return $this->getDayOfWeek() === 7;
     }
 
+    public function toStringDate(): string
+    {
+        return $this->format(self::FORMAT_DEFAULT_DATE);
+    }
+
+    public function toStringDateTime(): string
+    {
+        return $this->format(self::FORMAT_DEFAULT_DATETIME);
+    }
+
     public function __toString(): string
     {
-        return $this->format('Y-m-d H:i:s');
+        return $this->toStringDateTime();
     }
 }

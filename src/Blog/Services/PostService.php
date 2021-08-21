@@ -6,7 +6,7 @@ namespace Blog\Services;
 use Blog\Api\JsonPlaceholder\Post\PostResponse;
 use Blog\Business\PostBusiness;
 use Blog\Core\Paginator;
-use Blog\Dto\PostRequestDto;
+use Blog\Dto\Api\PostRequestDto;
 use Blog\Entity\Post;
 use Blog\Repository\PostRepository;
 
