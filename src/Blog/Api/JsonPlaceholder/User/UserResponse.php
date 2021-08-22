@@ -5,13 +5,16 @@ namespace Blog\Api\JsonPlaceholder\User;
 
 use Blog\Api\JsonPlaceholder\User\Attribute\Address;
 use Blog\Api\JsonPlaceholder\User\Attribute\Company;
-use JetBrains\PhpStorm\Pure;
+use Blog\Exception\ArgumentException;
 use ReinertTomas\JsonPlaceholderApi\User\UserResponse as UserResponseApi;
+use ReinertTomas\Utils\Strings;
 
 class UserResponse
 {
     private int $id;
+    private string $nameDefault;
     private string $name;
+    private string $surname;
     private string $username;
     private string $email;
     private Address $address;
@@ -19,11 +22,10 @@ class UserResponse
     private string $website;
     private Company $company;
 
-    #[Pure]
     public function __construct(UserResponseApi $response)
     {
         $this->id = $response->getId();
-        $this->name = $response->getName();
+        $this->setName($response->getName());
         $this->username = $response->getUsername();
         $this->email = $response->getEmail();
         $this->address = new Address($response->getAddress());
@@ -37,9 +39,19 @@ class UserResponse
         return $this->id;
     }
 
+    public function getNameDefault(): string
+    {
+        return $this->nameDefault;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getSurname(): string
+    {
+        return $this->surname;
     }
 
     public function getUsername(): string
@@ -70,5 +82,22 @@ class UserResponse
     public function getCompany(): Company
     {
         return $this->company;
+    }
+
+    private function setName(string $nameDefault): void
+    {
+        $nameArray = Strings::split($nameDefault, '/[\s]+/');
+
+        if (count($nameArray) < 2) {
+            throw new ArgumentException(
+                sprintf('Name %s is invalid for split.', $nameDefault),
+            );
+        }
+
+        [$name, $surname] = $nameArray;
+
+        $this->nameDefault = Strings::capitalize($nameDefault);
+        $this->name = Strings::firstUpper($name);
+        $this->surname = Strings::firstUpper($surname);
     }
 }

@@ -7,14 +7,24 @@ use Blog\Api\JsonPlaceholder\User\UserResponse;
 use Blog\Business\UserBusiness;
 use Blog\Core\DateTime;
 use Blog\Entity\User;
+use Blog\Repository\UserRepository;
 
 class UserService
 {
+    private UserRepository $userRepository;
     private UserBusiness $userBusiness;
 
-    public function __construct(UserBusiness $userBusiness)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        UserBusiness $userBusiness,
+    ) {
+        $this->userRepository = $userRepository;
         $this->userBusiness = $userBusiness;
+    }
+
+    public function get(int $id): User
+    {
+        return $this->userRepository->get($id);
     }
 
     public function createFromCommand(

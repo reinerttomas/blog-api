@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command\Blog\User;
+namespace App\Command\Blog\Api;
 
 use App\Command\CommandTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
@@ -19,7 +19,7 @@ class UserApiSyncCommand extends Command
 {
     use CommandTrait;
 
-    protected static $defaultName = 'blog:user:api:sync';
+    protected static $defaultName = 'blog:api:user:sync';
     protected static $defaultDescription = 'Synchronizace uživatelů z externího API';
 
     private LoggerInterface $logger;

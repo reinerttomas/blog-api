@@ -5,9 +5,7 @@ namespace Blog\Business;
 
 use Blog\Api\JsonPlaceholder\User\UserResponse;
 use Blog\Core\DateTime;
-use Blog\Core\Strings;
 use Blog\Entity\User;
-use Blog\Exception\ArgumentException;
 use Blog\Repository\UserRepository;
 
 class UserBusiness
@@ -37,27 +35,33 @@ class UserBusiness
         );
     }
 
-    public function updateOrCreateFromApi(UserResponse $userResponse, DateTime $lastSyncAt): User
+    public function updateOrCreateFromApi(UserResponse $userResponse, DateTime $syncAt): User
     {
-        $nameArray = Strings::split($userResponse->getName(), '/[\s]+/');
+        $user = $this->userRepository->findByRemoteId($userResponse->getId());
 
-        if (count($nameArray) < 0) {
-            throw new ArgumentException(
-                sprintf('Name %s is invalid for split.', $userResponse->getName()),
+        if ($user === null) {
+            $user = $this->create(
+                $userResponse->getEmail(),
+                $userResponse->getUsername(),
+                null,
+                $userResponse->getName(),
+                $userResponse->getSurname(),
+                $userResponse->getId(),
+                $syncAt,
+            );
+        } else {
+            $user = $this->update(
+                $user,
+                $userResponse->getEmail(),
+                $userResponse->getUsername(),
+                null,
+                $userResponse->getName(),
+                $userResponse->getSurname(),
+                $syncAt,
             );
         }
 
-        [$name, $surname] = $nameArray;
-
-        return $this->create(
-            $userResponse->getEmail(),
-            $userResponse->getUsername(),
-            null,
-            $name,
-            $surname,
-            $userResponse->getId(),
-            $lastSyncAt,
-        );
+        return $user;
     }
 
     private function create(
