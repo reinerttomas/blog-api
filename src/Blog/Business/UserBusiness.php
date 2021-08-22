@@ -40,28 +40,38 @@ class UserBusiness
         $user = $this->userRepository->findByRemoteId($userResponse->getId());
 
         if ($user === null) {
-            $user = $this->create(
-                $userResponse->getEmail(),
-                $userResponse->getUsername(),
-                null,
-                $userResponse->getName(),
-                $userResponse->getSurname(),
-                $userResponse->getId(),
-                $syncAt,
-            );
+            $user = $this->createFromApi($userResponse, $syncAt);
         } else {
-            $user = $this->update(
-                $user,
-                $userResponse->getEmail(),
-                $userResponse->getUsername(),
-                null,
-                $userResponse->getName(),
-                $userResponse->getSurname(),
-                $syncAt,
-            );
+            $user = $this->updateFromApi($user, $userResponse, $syncAt);
         }
 
         return $user;
+    }
+
+    private function createFromApi(UserResponse $userResponse, DateTime $syncAt): User
+    {
+        return $this->create(
+            $userResponse->getEmail(),
+            $userResponse->getUsername(),
+            null,
+            $userResponse->getName(),
+            $userResponse->getSurname(),
+            $userResponse->getId(),
+            $syncAt,
+        );
+    }
+
+    private function updateFromApi(User $user, UserResponse $userResponse, DateTime $syncAt): User
+    {
+        return $this->update(
+            $user,
+            $userResponse->getEmail(),
+            $userResponse->getUsername(),
+            null,
+            $userResponse->getName(),
+            $userResponse->getSurname(),
+            $syncAt,
+        );
     }
 
     private function create(

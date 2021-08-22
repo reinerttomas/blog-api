@@ -67,9 +67,6 @@
     <rule ref="SlevomatCodingStandard.Functions.StrictCall" />
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure" />
     <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
-        <properties>
-            <property name="maxLinesLength" value="30" />
-        </properties>
         <exclude-pattern>src/Command/*</exclude-pattern>
         <exclude-pattern>src/DataFixtures/*</exclude-pattern>
         <exclude-pattern>tests/*</exclude-pattern>
