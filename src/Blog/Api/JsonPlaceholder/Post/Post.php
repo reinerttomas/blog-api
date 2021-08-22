@@ -3,52 +3,35 @@ declare(strict_types=1);
 
 namespace Blog\Api\JsonPlaceholder\Post;
 
-use Blog\Api\JsonPlaceholder\JsonPlaceholderClient;
-use Blog\Exception\Exception;
+use ReinertTomas\JsonPlaceholderApi\Post\Post as PostApi;
 
 class Post
 {
-    private const ENDPOINT = '/posts';
+    private PostApi $postApi;
 
-    private JsonPlaceholderClient $httpClient;
-
-    public function __construct(JsonPlaceholderClient $httpClient)
+    public function __construct(PostApi $postApi)
     {
-        $this->httpClient = $httpClient;
+        $this->postApi = $postApi;
     }
 
     public function get(int $id): PostResponse
     {
-        $response = $this->httpClient->get(self::ENDPOINT . '/' . $id);
+        $response = $this->postApi->get($id);
 
-        if ($response->getStatusCode() !== 200) {
-            throw new Exception(
-                sprintf('Error get post %d. Status code %d', $id, $response->getStatusCode()),
-            );
-        }
-
-        return new PostResponse($response->toArray());
+        return new PostResponse($response);
     }
 
     public function list(): array
     {
-        /** @var array<int, PostResponse> $postResponses */
-        $postResponses = [];
+        /** @var array<int, PostResponse> $posts */
+        $posts = [];
 
-        $response = $this->httpClient->get(self::ENDPOINT);
+        $responses = $this->postApi->list();
 
-        if ($response->getStatusCode() !== 200) {
-            throw new Exception(
-                sprintf('Error list. Status code %d', $response->getStatusCode()),
-            );
+        foreach ($responses as $response) {
+            $posts[] = new PostResponse($response);
         }
 
-        $postsArray = $response->toArray();
-
-        foreach ($postsArray as $postArray) {
-            $postResponses[] = new PostResponse($postArray);
-        }
-
-        return $postResponses;
+        return $posts;
     }
 }

@@ -21,11 +21,9 @@ class User
         return new UserResponse($response);
     }
 
-    /**
-     * @return array<int, UserResponse>
-     */
     public function list(): array
     {
+        /** @var array<int, UserResponse> $users */
         $users = [];
 
         $responses = $this->userApi->list();

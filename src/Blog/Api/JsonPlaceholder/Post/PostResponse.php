@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Blog\Api\JsonPlaceholder\Post;
 
-use Blog\Core\Arrays;
-use Blog\Core\Parser;
+use JetBrains\PhpStorm\Pure;
+use ReinertTomas\JsonPlaceholderApi\Post\PostResponse as PostResponseApi;
 
 class PostResponse
 {
@@ -13,17 +13,13 @@ class PostResponse
     private string $title;
     private string $body;
 
-    public function __construct(array $data)
+    #[Pure]
+    public function __construct(PostResponseApi $postResponse)
     {
-        Arrays::checkIndexExists($data, 'id');
-        Arrays::checkIndexExists($data, 'userId');
-        Arrays::checkIndexExists($data, 'title');
-        Arrays::checkIndexExists($data, 'body');
-
-        $this->id = Parser::parseInt($data['id']);
-        $this->userId = Parser::parseInt($data['userId']);
-        $this->title = Parser::parseString($data['title']);
-        $this->body = Parser::parseString($data['body']);
+        $this->id = $postResponse->getId();
+        $this->userId = $postResponse->getUserId();
+        $this->title = $postResponse->getTitle();
+        $this->body = $postResponse->getBody();
     }
 
     public function getId(): int
