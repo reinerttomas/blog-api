@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Blog\Business;
 
+use Blog\Api\JsonPlaceholder\User\UserResponse;
 use Blog\Core\DateTime;
+use Blog\Core\Strings;
 use Blog\Entity\User;
+use Blog\Exception\ArgumentException;
 use Blog\Repository\UserRepository;
 
 class UserBusiness
@@ -29,15 +32,42 @@ class UserBusiness
             $password,
             $name,
             $surname,
+            null,
+            null,
+        );
+    }
+
+    public function updateOrCreateFromApi(UserResponse $userResponse, DateTime $lastSyncAt): User
+    {
+        $nameArray = Strings::split($userResponse->getName(), '/[\s]+/');
+
+        if (count($nameArray) < 0) {
+            throw new ArgumentException(
+                sprintf('Name %s is invalid for split.', $userResponse->getName()),
+            );
+        }
+
+        [$name, $surname] = $nameArray;
+
+        return $this->create(
+            $userResponse->getEmail(),
+            $userResponse->getUsername(),
+            null,
+            $name,
+            $surname,
+            $userResponse->getId(),
+            $lastSyncAt,
         );
     }
 
     private function create(
         string $email,
         string $username,
-        string $password,
+        ?string $password,
         string $name,
         string $surname,
+        ?int $remoteId,
+        ?DateTime $syncAt,
     ): User {
         $user = new User(
             $email,
@@ -45,8 +75,10 @@ class UserBusiness
             $password,
             $name,
             $surname,
+            $remoteId,
             new DateTime(),
             null,
+            $syncAt,
         );
 
         return $this->userRepository->store($user);
@@ -56,14 +88,16 @@ class UserBusiness
         User $user,
         string $email,
         string $username,
-        string $password,
+        ?string $password,
         string $name,
         string $surname,
+        ?DateTime $syncAt,
     ): User {
         $user->changeEmail($email)
             ->changeUsername($username)
             ->changePassword($password)
             ->changeName($name, $surname)
+            ->changeSyncAt($syncAt)
             ->updated();
 
         return $this->userRepository->store($user);

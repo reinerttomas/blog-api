@@ -18,11 +18,26 @@ class UserFixtures extends Fixture
             '1234',
             'test',
             'tester',
+            null,
             DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-01 08:00:00'),
+            null,
             null,
         );
 
+        $user2 = new User(
+            'remote@api.com',
+            'remoteapi',
+            '4321',
+            'remote',
+            'api',
+            100,
+            DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-01 08:00:00'),
+            DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-02 09:00:00'),
+            DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-03 10:00:00'),
+        );
+
         $manager->persist($user1);
+        $manager->persist($user2);
         $manager->flush();
     }
 }

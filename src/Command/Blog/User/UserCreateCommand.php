@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command\Blog;
+namespace App\Command\Blog\User;
 
 use App\Command\ArgumentTrait;
-use App\Command\DescriptionTrait;
+use App\Command\CommandTrait;
 use Blog\Core\StopWatch\StopWatch;
 use Blog\Services\UserService;
 use Psr\Log\LoggerInterface;
@@ -12,18 +12,15 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
 final class UserCreateCommand extends Command
 {
-    use DescriptionTrait;
+    use CommandTrait;
     use ArgumentTrait;
 
     protected static $defaultName = 'blog:user:create';
     protected static $defaultDescription = 'Vytvoreni uzivatele';
-
-    private SymfonyStyle $io;
 
     private LoggerInterface $logger;
     private UserService $userService;
@@ -48,12 +45,6 @@ final class UserCreateCommand extends Command
             ->addArgument('password', InputArgument::REQUIRED)
             ->addArgument('name', InputArgument::REQUIRED)
             ->addArgument('surname', InputArgument::REQUIRED);
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->io->title($this->defaultDescription());
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -101,6 +92,6 @@ final class UserCreateCommand extends Command
         $this->io->success('OK');
         $this->io->text($stopWatch->stop($this->defaultName())->getDurationMemoryMessage());
 
-        return Command::SUCCESS;
+        return $this->success();
     }
 }

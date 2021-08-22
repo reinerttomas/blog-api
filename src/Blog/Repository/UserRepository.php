@@ -40,6 +40,54 @@ class UserRepository extends ServiceEntityRepository
         return $entity;
     }
 
+    public function findByEmail(string $email): ?User
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+    public function getByEmail(string $email): User
+    {
+        $entity = $this->findByEmail($email);
+
+        if ($entity === null) {
+            throw new NotFoundException('User not found. Email: ' . $email);
+        }
+
+        return $entity;
+    }
+
+    public function findByUsername(string $username): ?User
+    {
+        return $this->findOneBy(['username' => $username]);
+    }
+
+    public function getByUsername(string $username): User
+    {
+        $entity = $this->findByUsername($username);
+
+        if ($entity === null) {
+            throw new NotFoundException('User not found. Username: ' . $username);
+        }
+
+        return $entity;
+    }
+
+    public function findByRemoteId(int $remoteId): ?User
+    {
+        return $this->findOneBy(['remoteId' => $remoteId]);
+    }
+
+    public function getByRemoteId(int $remoteId): User
+    {
+        $entity = $this->findByRemoteId($remoteId);
+
+        if ($entity === null) {
+            throw new NotFoundException('User not found. RemoteId: ' . $remoteId);
+        }
+
+        return $entity;
+    }
+
     public function store(User $entity): User
     {
         $em = $this->getEntityManager();

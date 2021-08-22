@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Blog\Services;
 
+use Blog\Api\JsonPlaceholder\User\UserResponse;
 use Blog\Business\UserBusiness;
+use Blog\Core\DateTime;
 use Blog\Entity\User;
 
 class UserService
@@ -29,5 +31,10 @@ class UserService
             $name,
             $surname,
         );
+    }
+
+    public function updateOrCreateFromApi(UserResponse $userResponse, DateTime $syncAt): User
+    {
+        return $this->userBusiness->updateOrCreateFromApi($userResponse, $syncAt);
     }
 }

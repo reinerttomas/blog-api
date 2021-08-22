@@ -18,7 +18,7 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="password" type="string" column="password" length="255" nullable="false">
+    <field name="password" type="string" column="password" length="255" nullable="true">
       <options>
         <option name="fixed"/>
       </options>
@@ -33,7 +33,13 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="remoteId" type="integer" column="remote_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
     <field name="createdAt" type="datetime" column="created_at" nullable="false"/>
     <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+    <field name="syncAt" type="datetime" column="sync_at" nullable="true"/>
   </entity>
 </doctrine-mapping>

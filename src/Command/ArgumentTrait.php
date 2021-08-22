@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 trait ArgumentTrait
 {
-    public function askForArguments(
+    protected function askForArguments(
         InputInterface $input,
         OutputInterface $output,
         SymfonyStyle $io,

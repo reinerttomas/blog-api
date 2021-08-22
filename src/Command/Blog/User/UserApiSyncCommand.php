@@ -1,56 +1,41 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command\Blog;
+namespace App\Command\Blog\User;
 
-use App\Command\DescriptionTrait;
+use App\Command\CommandTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
+use Blog\Core\DateTime;
 use Blog\Core\StopWatch\StopWatch;
-use Blog\Services\PostService;
+use Blog\Services\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
-final class PostApiCreateCommand extends Command
+class UserApiSyncCommand extends Command
 {
-    use DescriptionTrait;
+    use CommandTrait;
 
-    protected static $defaultName = 'blog:post-api:create';
-    protected static $defaultDescription = 'Vytvoreni clanku z API';
-
-    private SymfonyStyle $io;
+    protected static $defaultName = 'blog:user:api:sync';
+    protected static $defaultDescription = 'Synchronizace uživatelů z externího API';
 
     private LoggerInterface $logger;
-    private PostService $postService;
+    private UserService $userService;
     private JsonPlaceholderApi $jsonPlaceholderApi;
 
     public function __construct(
         LoggerInterface $logger,
-        PostService $postService,
+        UserService $userService,
         JsonPlaceholderApi $jsonPlaceholderApi,
     ) {
         parent::__construct();
 
         $this->logger = $logger;
-        $this->postService = $postService;
+        $this->userService = $userService;
         $this->jsonPlaceholderApi = $jsonPlaceholderApi;
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->io->title($this->defaultDescription());
-    }
-
-    protected function configure(): void
-    {
-        $this->setName($this->defaultName())
-            ->setDescription($this->defaultDescription())
-            ->setHelp($this->defaultDescription());
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -61,17 +46,19 @@ final class PostApiCreateCommand extends Command
         $progressBar = new ProgressBar($output);
         $progressBar->start();
 
-        $postResponses = $this->jsonPlaceholderApi
-            ->post()
+        $syncAt = new DateTime();
+
+        $userResponses = $this->jsonPlaceholderApi
+            ->user()
             ->list();
 
-        foreach ($postResponses as $postResponse) {
+        foreach ($userResponses as $userResponse) {
             try {
-                $this->postService->createFromJsonPlaceholderApi($postResponse);
+                $this->userService->updateOrCreateFromApi($userResponse, $syncAt);
             } catch (Throwable $t) {
                 $this->io->newLine(2);
-                $this->io->error('Error post: ' . $postResponse->getId());
-                $this->logger->critical($t->getMessage(), $t->getTrace());
+                $this->io->error('Error user: ' . $userResponse->getId());
+                $this->logger->error($t->getMessage(), $t->getTrace());
             }
 
             $progressBar->advance();
@@ -83,6 +70,6 @@ final class PostApiCreateCommand extends Command
         $this->io->success('OK');
         $this->io->text($stopWatch->stop($this->defaultName())->getDurationMemoryMessage());
 
-        return Command::SUCCESS;
+        return $this->success();
     }
 }
