@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Command\Blog\Post;
+namespace App\Command\Blog\Api;
 
 use App\Command\CommandTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
+use Blog\Core\DateTime;
 use Blog\Core\StopWatch\StopWatch;
 use Blog\Services\PostService;
 use Psr\Log\LoggerInterface;
@@ -18,7 +19,7 @@ final class PostApiSyncCommand extends Command
 {
     use CommandTrait;
 
-    protected static $defaultName = 'blog:post:api-sync';
+    protected static $defaultName = 'blog:api:post:sync';
     protected static $defaultDescription = 'Synchronizace článků z externího API';
 
     private LoggerInterface $logger;
@@ -45,13 +46,15 @@ final class PostApiSyncCommand extends Command
         $progressBar = new ProgressBar($output);
         $progressBar->start();
 
+        $syncAt = new DateTime();
+
         $postResponses = $this->jsonPlaceholderApi
             ->post()
             ->list();
 
         foreach ($postResponses as $postResponse) {
             try {
-                $this->postService->createFromJsonPlaceholderApi($postResponse);
+                $this->postService->updateOrCreateFromApi($postResponse, $syncAt);
             } catch (Throwable $t) {
                 $this->io->newLine(2);
                 $this->io->error('Error post: ' . $postResponse->getId());

@@ -5,6 +5,7 @@ namespace Blog\Services;
 
 use Blog\Api\JsonPlaceholder\Post\PostResponse;
 use Blog\Business\PostBusiness;
+use Blog\Core\DateTime;
 use Blog\Core\Paginator;
 use Blog\Dto\Api\PostRequestDto;
 use Blog\Entity\Post;
@@ -43,8 +44,8 @@ class PostService
         return $this->postBusiness->createFromRequest($postRequestDto);
     }
 
-    public function createFromJsonPlaceholderApi(PostResponse $postResponse): Post
+    public function updateOrCreateFromApi(PostResponse $postResponse, DateTime $syncAt): Post
     {
-        return $this->postBusiness->createFromJsonPlaceholderApi($postResponse);
+        return $this->postBusiness->updateOrCreateFromApi($postResponse, $syncAt);
     }
 }

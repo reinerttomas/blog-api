@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="Blog\Entity\Post" table="post">
+    <indexes>
+      <index name="author_id" columns="author_id"/>
+      <index name="remote_id" columns="remote_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="slug" columns="slug"/>
+    </unique-constraints>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
@@ -19,7 +26,18 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="remoteId" type="integer" column="remote_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
     <field name="createdAt" type="datetime" column="created_at" nullable="false"/>
     <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+    <field name="syncAt" type="datetime" column="sync_at" nullable="true"/>
+    <many-to-one field="author" target-entity="Blog\Entity\User" fetch="LAZY">
+      <join-columns>
+        <join-column name="author_id" referenced-column-name="id" nullable="false"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

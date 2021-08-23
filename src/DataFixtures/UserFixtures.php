@@ -10,9 +10,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
+    public const USER_LOCAL = 'user.local';
+    public const USER_REMOTE = 'user.remote';
+
     public function load(ObjectManager $manager): void
     {
-        $user1 = new User(
+        $userLocal = new User(
             'test@test.com',
             'username',
             '1234',
@@ -24,7 +27,7 @@ class UserFixtures extends Fixture
             null,
         );
 
-        $user2 = new User(
+        $userRemote = new User(
             'remote@api.com',
             'remoteapi',
             '4321',
@@ -36,8 +39,11 @@ class UserFixtures extends Fixture
             DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-03 10:00:00'),
         );
 
-        $manager->persist($user1);
-        $manager->persist($user2);
+        $manager->persist($userLocal);
+        $manager->persist($userRemote);
         $manager->flush();
+
+        $this->addReference(self::USER_LOCAL, $userLocal);
+        $this->addReference(self::USER_REMOTE, $userRemote);
     }
 }

@@ -7,23 +7,23 @@ use Blog\Entity\User;
 
 class PostRequestDto
 {
-    private User $user;
+    private User $author;
     private string $title;
     private string $content;
 
     public function __construct(
-        User $user,
+        User $author,
         string $title,
         string $content,
     ) {
-        $this->user = $user;
+        $this->author = $author;
         $this->title = $title;
         $this->content = $content;
     }
 
-    public function getUser(): User
+    public function getAuthor(): User
     {
-        return $this->user;
+        return $this->author;
     }
 
     public function getTitle(): string

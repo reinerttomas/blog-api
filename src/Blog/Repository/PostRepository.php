@@ -56,6 +56,22 @@ class PostRepository extends ServiceEntityRepository
         return $this->findOneBy(['slug' => $slug]);
     }
 
+    public function findByRemoteId(int $remoteId): ?Post
+    {
+        return $this->findOneBy(['remoteId' => $remoteId]);
+    }
+
+    public function getByRemoteId(int $remoteId): Post
+    {
+        $entity = $this->findByRemoteId($remoteId);
+
+        if ($entity === null) {
+            throw new NotFoundException('Post not found. RemoteId: ' . $remoteId);
+        }
+
+        return $entity;
+    }
+
     public function store(Post $entity): Post
     {
         $em = $this->getEntityManager();
