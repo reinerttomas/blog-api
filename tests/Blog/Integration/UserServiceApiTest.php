@@ -9,7 +9,7 @@ use Blog\Services\UserService;
 use ReinertTomas\JsonPlaceholderApi\User\UserResponse as UserResponseApi;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class UserServiceSyncTest extends KernelTestCase
+class UserServiceApiTest extends KernelTestCase
 {
     private UserService $userService;
 

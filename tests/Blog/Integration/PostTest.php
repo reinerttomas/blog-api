@@ -96,7 +96,7 @@ class PostTest extends KernelTestCase
                 'slug' => 'dolorem-eum-magni-eos-aperiam-quia',
                 'title' => 'dolorem eum magni eos aperiam quia',
                 'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                'remoteId' => 1002,
+                'remoteId' => 100,
                 'createdAt' => '2021-01-01 08:05:00',
                 'updatedAt' => null,
                 'syncAt' => '2021-01-01 12:05:00',
