@@ -5,7 +5,7 @@ namespace Blog\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Blog\Core\DateTime;
-use Blog\Core\Strings;
+use ReinertTomas\Utils\Strings;
 
 #[ApiResource]
 class Post

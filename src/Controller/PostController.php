@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Blog\Core\Json;
 use Blog\Exception\Exception;
 use Blog\Exception\NotFoundException;
 use Blog\Factory\Api\PostRequestFactory;
 use Blog\Factory\PaginatorFactory;
 use Blog\Services\PostService;
+use ReinertTomas\Utils\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

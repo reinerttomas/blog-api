@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Blog\Core\StopWatch;
 
-use Blog\Core\Math;
 use Blog\Exception\Exception;
+use ReinertTomas\Utils\Math;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class StopWatchResponse
@@ -38,7 +38,7 @@ class StopWatchResponse
             throw new Exception('Time format not exist');
         }
 
-        return Math::round($totalDuration, $roundNumbers);
+        return (float)Math::numberFormat($totalDuration, $roundNumbers, null, null);
     }
 
     public function getMemory(?string $memoryFormat = self::MEMORY_MEGA_BYTES, int $roundNumbers = 2): float
@@ -55,7 +55,7 @@ class StopWatchResponse
             throw new Exception('Memory format not exist');
         }
 
-        return Math::round($totalMemory, $roundNumbers);
+        return (float)Math::numberFormat($totalMemory, $roundNumbers, null, null);
     }
 
     public function getDurationMemoryMessage(): string

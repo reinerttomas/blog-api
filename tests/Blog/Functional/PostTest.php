@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Blog\Functional;
 
-use Blog\Core\Json;
+use ReinertTomas\Utils\Json;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PostTest extends WebTestCase

@@ -8,6 +8,7 @@ use DateTime as PhpDateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use ReinertTomas\Utils\Math;
 
 class DateTime extends DateTimeImmutable
 {
@@ -81,7 +82,7 @@ class DateTime extends DateTimeImmutable
 
     public function getDayOfWeek(): int
     {
-        $dayOfWeek = Math::intval($this->format('N'));
+        $dayOfWeek = Math::intVal($this->format('N'));
 
         if ($dayOfWeek === 0) {
             throw new Exception('Error day of week');
