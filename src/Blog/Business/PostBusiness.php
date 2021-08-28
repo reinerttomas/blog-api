@@ -58,37 +58,6 @@ class PostBusiness
         return $post;
     }
 
-    public function updateFromApi(
-        Post $post,
-        User $author,
-        PostResponse $postResponse,
-        DateTime $syncAt,
-    ): Post {
-        return $this->update(
-            $post,
-            $author,
-            $postResponse->getTitle(),
-            $postResponse->getBody(),
-            $syncAt,
-        );
-    }
-
-    public function update(
-        Post $post,
-        User $author,
-        string $title,
-        string $content,
-        ?DateTime $syncAt,
-    ): Post {
-        $post->changeAuthor($author)
-            ->changeTitle($title)
-            ->changeContent($content)
-            ->changeSyncAt($syncAt)
-            ->updated();
-
-        return $this->postRepository->store($post);
-    }
-
     private function createFromApi(
         User $author,
         PostResponse $postResponse,
@@ -99,6 +68,21 @@ class PostBusiness
             $postResponse->getTitle(),
             $postResponse->getBody(),
             $postResponse->getId(),
+            $syncAt,
+        );
+    }
+
+    private function updateFromApi(
+        Post $post,
+        User $author,
+        PostResponse $postResponse,
+        DateTime $syncAt,
+    ): Post {
+        return $this->update(
+            $post,
+            $author,
+            $postResponse->getTitle(),
+            $postResponse->getBody(),
             $syncAt,
         );
     }
@@ -119,6 +103,22 @@ class PostBusiness
             null,
             $syncAt,
         );
+
+        return $this->postRepository->store($post);
+    }
+
+    private function update(
+        Post $post,
+        User $author,
+        string $title,
+        string $content,
+        ?DateTime $syncAt,
+    ): Post {
+        $post->changeAuthor($author)
+            ->changeTitle($title)
+            ->changeContent($content)
+            ->changeSyncAt($syncAt)
+            ->updated();
 
         return $this->postRepository->store($post);
     }

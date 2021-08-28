@@ -12,15 +12,18 @@ use Doctrine\Persistence\ObjectManager;
 
 class PostFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const POST_1 = 'post.1';
+    public const POST_5 = 'post.5';
+
     public function load(ObjectManager $manager): void
     {
         /** @var User $userLocal */
-        $userLocal = $this->getReference(UserFixtures::USER_LOCAL);
+        $userLocal = $this->getReference(UserFixtures::USER_1);
 
         /** @var User $userRemote */
-        $userRemote = $this->getReference(UserFixtures::USER_REMOTE);
+        $userRemote = $this->getReference(UserFixtures::USER_2);
 
-        $post1 = new Post(
+        $post1 = $this->getPost(
             $userLocal,
             'qui est esse',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -30,7 +33,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             null,
         );
 
-        $post2 = new Post(
+        $post2 = $this->getPost(
             $userLocal,
             'ea molestias quasi',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -40,7 +43,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             null,
         );
 
-        $post3 = new Post(
+        $post3 = $this->getPost(
             $userLocal,
             'eum et est occaecati',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -50,7 +53,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             null,
         );
 
-        $post4 = new Post(
+        $post4 = $this->getPost(
             $userRemote,
             'nesciunt quas odio',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -60,7 +63,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-01 12:04:00'),
         );
 
-        $post5 = new Post(
+        $post5 = $this->getPost(
             $userRemote,
             'dolorem eum magni eos aperiam quia',
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -76,6 +79,9 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($post4);
         $manager->persist($post5);
         $manager->flush();
+
+        $this->addReference(self::POST_1, $post1);
+        $this->addReference(self::POST_5, $post5);
     }
 
     public function getDependencies(): array
@@ -83,5 +89,25 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         return [
             UserFixtures::class,
         ];
+    }
+
+    private function getPost(
+        User $user,
+        string $title,
+        string $content,
+        ?int $remoteId,
+        DateTime $createdAt,
+        ?DateTime $updatedAt,
+        ?DateTime $syncAt,
+    ): Post {
+        return new Post(
+            $user,
+            $title,
+            $content,
+            $remoteId,
+            $createdAt,
+            $updatedAt,
+            $syncAt,
+        );
     }
 }

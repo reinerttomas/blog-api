@@ -27,16 +27,45 @@ class CommentTest extends KernelTestCase
      */
     public function testGetById(
         int $id,
+        int $postId,
         string $content,
+        ?int $remoteId,
         string $createdAt,
         ?string $updatedAt,
+        ?string $syncAt,
     ): void {
         $comment = $this->commentRepository->get($id);
 
         self::assertEquals($id, $comment->getId());
+        self::assertEquals($postId, $comment->getPost()->getId());
         self::assertEquals($content, $comment->getContent());
+        self::assertEquals($remoteId, $comment->getRemoteId());
         self::assertEquals($createdAt, $comment->getCreatedAt()->toStringDateTime());
-        self::assertEquals($updatedAt, $comment->getUpdatedAt());
+        self::assertEquals($updatedAt, $comment->getUpdatedAt()?->toStringDateTime());
+        self::assertEquals($syncAt, $comment->getSyncAt()?->toStringDateTime());
+    }
+
+    /**
+     * @dataProvider provideCommentApiData
+     */
+    public function testGetByRemoteId(
+        int $id,
+        int $postId,
+        string $content,
+        int $remoteId,
+        string $createdAt,
+        string $updatedAt,
+        string $syncAt,
+    ): void {
+        $comment = $this->commentRepository->getByRemoteId($remoteId);
+
+        self::assertEquals($id, $comment->getId());
+        self::assertEquals($postId, $comment->getPost()->getId());
+        self::assertEquals($content, $comment->getContent());
+        self::assertEquals($remoteId, $comment->getRemoteId());
+        self::assertEquals($createdAt, $comment->getCreatedAt()->toStringDateTime());
+        self::assertEquals($updatedAt, $comment->getUpdatedAt()->toStringDateTime());
+        self::assertEquals($syncAt, $comment->getSyncAt()->toStringDateTime());
     }
 
     public function provideCommentData(): array
@@ -44,9 +73,36 @@ class CommentTest extends KernelTestCase
         return [
             [
                 'id' => 1,
-                'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                'postId' => 1,
+                'content' => 'Audantium enim quasi est quidem magnam voluptate.',
+                'remoteId' => null,
                 'createdAt' => '2021-01-01 08:00:00',
                 'updatedAt' => null,
+                'syncAt' => null,
+            ],
+            [
+                'id' => 2,
+                'postId' => 5,
+                'content' => 'Est natus enim nihil est dolore omnis voluptatem.',
+                'remoteId' => 100,
+                'createdAt' => '2021-01-02 08:00:00',
+                'updatedAt' => '2021-01-02 09:00:00',
+                'syncAt' => '2021-01-02 10:00:00',
+            ],
+        ];
+    }
+
+    public function provideCommentApiData(): array
+    {
+        return [
+            [
+                'id' => 2,
+                'postId' => 5,
+                'content' => 'Est natus enim nihil est dolore omnis voluptatem.',
+                'remoteId' => 100,
+                'createdAt' => '2021-01-02 08:00:00',
+                'updatedAt' => '2021-01-02 09:00:00',
+                'syncAt' => '2021-01-02 10:00:00',
             ],
         ];
     }

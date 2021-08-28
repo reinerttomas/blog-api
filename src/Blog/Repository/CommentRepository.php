@@ -40,6 +40,22 @@ class CommentRepository extends ServiceEntityRepository
         return $entity;
     }
 
+    public function findByRemoteId(int $remoteId): ?Comment
+    {
+        return $this->findOneBy(['remoteId' => $remoteId]);
+    }
+
+    public function getByRemoteId(int $remoteId): Comment
+    {
+        $entity = $this->findByRemoteId($remoteId);
+
+        if ($entity === null) {
+            throw new NotFoundException('Comment not found. RemoteId: ' . $remoteId);
+        }
+
+        return $entity;
+    }
+
     public function store(Comment $entity): Comment
     {
         $em = $this->getEntityManager();

@@ -7,7 +7,7 @@ use App\Command\CommandTrait;
 use Blog\Api\JsonPlaceholder\JsonPlaceholderApi;
 use Blog\Core\DateTime;
 use Blog\Core\StopWatch\StopWatch;
-use Blog\Services\UserService;
+use Blog\Services\CommentService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -15,26 +15,26 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-final class UserApiSyncCommand extends Command
+class CommentApiSyncCommand extends Command
 {
     use CommandTrait;
 
-    protected static $defaultName = 'blog:api:user:sync';
-    protected static $defaultDescription = 'Synchronizace uživatelů z externího API';
+    protected static $defaultName = 'blog:api:comment:sync';
+    protected static $defaultDescription = 'Synchronizace komentářů z externího API';
 
     private LoggerInterface $logger;
-    private UserService $userService;
+    private CommentService $commentService;
     private JsonPlaceholderApi $jsonPlaceholderApi;
 
     public function __construct(
         LoggerInterface $logger,
-        UserService $userService,
+        CommentService $commentService,
         JsonPlaceholderApi $jsonPlaceholderApi,
     ) {
         parent::__construct();
 
         $this->logger = $logger;
-        $this->userService = $userService;
+        $this->commentService = $commentService;
         $this->jsonPlaceholderApi = $jsonPlaceholderApi;
     }
 
@@ -48,17 +48,17 @@ final class UserApiSyncCommand extends Command
 
         $syncAt = new DateTime();
 
-        $userResponses = $this->jsonPlaceholderApi
-            ->user()
+        $commentResponses = $this->jsonPlaceholderApi
+            ->comment()
             ->list();
 
-        foreach ($userResponses as $userResponse) {
+        foreach ($commentResponses as $commentResponse) {
             try {
-                $this->userService->updateOrCreateFromApi($userResponse, $syncAt);
+                $this->commentService->updateOrCreateFromApi($commentResponse, $syncAt);
             } catch (Throwable $t) {
                 $this->io->newLine(2);
-                $this->io->error('Error user: ' . $userResponse->getId());
-                $this->logger->error($t->getMessage(), $t->getTrace());
+                $this->io->error('Error comment: ' . $commentResponse->getId());
+                $this->logger->critical($t->getMessage(), $t->getTrace());
             }
 
             $progressBar->advance();

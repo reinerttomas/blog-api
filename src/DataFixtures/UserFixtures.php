@@ -10,12 +10,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
-    public const USER_LOCAL = 'user.local';
-    public const USER_REMOTE = 'user.remote';
+    public const USER_1 = 'user.1';
+    public const USER_2 = 'user.2';
 
     public function load(ObjectManager $manager): void
     {
-        $userLocal = new User(
+        $user1 = $this->getUser(
             'test@test.com',
             'username',
             '1234',
@@ -27,7 +27,7 @@ class UserFixtures extends Fixture
             null,
         );
 
-        $userRemote = new User(
+        $user2 = $this->getUser(
             'remote@api.com',
             'remoteapi',
             '4321',
@@ -39,11 +39,35 @@ class UserFixtures extends Fixture
             DateTime::fromFormat(' Y-m-d h:i:s', '2021-01-03 10:00:00'),
         );
 
-        $manager->persist($userLocal);
-        $manager->persist($userRemote);
+        $manager->persist($user1);
+        $manager->persist($user2);
         $manager->flush();
 
-        $this->addReference(self::USER_LOCAL, $userLocal);
-        $this->addReference(self::USER_REMOTE, $userRemote);
+        $this->addReference(self::USER_1, $user1);
+        $this->addReference(self::USER_2, $user2);
+    }
+
+    private function getUser(
+        string $email,
+        string $username,
+        string $password,
+        string $name,
+        string $surname,
+        ?int $remoteId,
+        DateTime $createdAt,
+        ?DateTime $updatedAt,
+        ?DateTime $syncAt,
+    ): User {
+        return new User(
+            $email,
+            $username,
+            $password,
+            $name,
+            $surname,
+            $remoteId,
+            $createdAt,
+            $updatedAt,
+            $syncAt,
+        );
     }
 }

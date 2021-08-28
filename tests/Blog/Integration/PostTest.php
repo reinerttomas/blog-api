@@ -76,6 +76,33 @@ class PostTest extends KernelTestCase
         self::assertEquals($syncAt, $post->getSyncAt()?->toStringDateTime());
     }
 
+    /**
+     * @dataProvider providePostApiData
+     */
+    public function testGetByRemoteId(
+        int $id,
+        int $authorId,
+        string $slug,
+        string $title,
+        string $content,
+        ?int $remoteId,
+        string $createdAt,
+        ?string $updatedAt,
+        ?string $syncAt,
+    ): void {
+        $post = $this->postRepository->getByRemoteId($remoteId);
+
+        self::assertEquals($id, $post->getId());
+        self::assertEquals($authorId, $post->getAuthor()->getId());
+        self::assertEquals($slug, $post->getSlug());
+        self::assertEquals($title, $post->getTitle());
+        self::assertEquals($content, $post->getContent());
+        self::assertEquals($remoteId, $post->getRemoteId());
+        self::assertEquals($createdAt, $post->getCreatedAt()->toStringDateTime());
+        self::assertEquals($updatedAt, $post->getUpdatedAt()?->toStringDateTime());
+        self::assertEquals($syncAt, $post->getSyncAt()?->toStringDateTime());
+    }
+
     public function providePostData(): array
     {
         return [
@@ -90,6 +117,23 @@ class PostTest extends KernelTestCase
                 'updatedAt' => '2021-01-01 09:01:00',
                 'syncAt' => null,
             ],
+            [
+                'id' => 5,
+                'authorId' => 2,
+                'slug' => 'dolorem-eum-magni-eos-aperiam-quia',
+                'title' => 'dolorem eum magni eos aperiam quia',
+                'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                'remoteId' => 100,
+                'createdAt' => '2021-01-01 08:05:00',
+                'updatedAt' => null,
+                'syncAt' => '2021-01-01 12:05:00',
+            ],
+        ];
+    }
+
+    public function providePostApiData(): array
+    {
+        return [
             [
                 'id' => 5,
                 'authorId' => 2,
